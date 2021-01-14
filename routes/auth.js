@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("ENTER YOUR POSTMARK TOKEN");
+var client = new postmark.Client("e3e929ca-85fa-41e1-b7f5-e19af56667f5");
 
 
 var { userModel, otpModel } = require("../dbrepo/models");
@@ -99,14 +99,12 @@ api.post("/login", (req, res, next) => {
                 bcrypt.varifyHash(req.body.password, user.password).then(isMatched => {
                     if (isMatched) {
                         console.log("matched");
-
                         var token =
                             jwt.sign({
                                 id: user._id,
                                 name: user.name,
                                 email: user.email,
                             }, SERVER_SECRET)
-
                         res.cookie('jToken', token, {
                             maxAge: 86_400_000,
                             httpOnly: true
@@ -161,7 +159,7 @@ api.post("/forget-password", function (req, res, next) {
         function (err, user) {
             if (err) {
                 res.status(500).send({
-                    message: "an error occured: " + JSON.stringify(err);
+                    message: "an error occured: " + JSON.stringify(err)
                 });
             } else if (user) {
                 const otp = Math.floor(getRandomArbitrary(111111, 99999));

@@ -8,6 +8,7 @@ var path = require("path")
 var { userModel } = require("./dbrepo/models");
 var authRoutes = require("./routes/auth");
 var { SERVER_SECRET } = require("./core/index");
+const { resolve } = require("path");
 
 console.log("module: ", userModel);
 
@@ -23,10 +24,11 @@ app.use(cors({
 }));
 
 app.use(morgan('dev'));
+app.use("/",express.static(path.resolve(path.join(__dirname,"public"))));
 
 
-
-app.use("/auth", authRoutes)
+app.use("/", authRoutes)
+// app.use("/auth", authRoutes)
 
 
 app.use(function (req, res, next) {
