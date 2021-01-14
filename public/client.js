@@ -1,7 +1,8 @@
 function signup() {
     axios({
         method: 'post',
-        url: 'http://localhost:5000/signup',
+        // url: 'http://localhost:5000/signup',
+        url: 'https://forgetpasswordserver.herokuapp.com/signup',
         data: {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -23,7 +24,8 @@ function signup() {
 function login() {
     axios({
         method: 'post',
-        url: 'http://localhost:5000/login',
+        // url: 'http://localhost:5000/login',
+        url: 'https://forgetpasswordserver.herokuapp.com/login',
         withCredentials: true,
         data: {
 
