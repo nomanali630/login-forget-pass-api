@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("e3e929ca-85fa-41e1-b7f5-e19af56667f5");
+// var client = new postmark.Client("e3e929ca-85fa-41e1-b7f5-e19af56667f5");
 
 
 var { userModel, otpModel } = require("../dbrepo/models");
@@ -146,7 +146,7 @@ api.post("/logout", (req, res, next) => {
     res.send("logout success");
 })
 
-api.post("/forget-password", function (req, res, next) {
+api.post("/forget_password", function (req, res, next) {
     if (!req.body.email) {
         res.status(403).send(`
             please send body in json body
@@ -190,7 +190,7 @@ api.post("/forget-password", function (req, res, next) {
     )
 });
 
-api.post("/forget-password-step-2", function (req, res, next) {
+api.post("/forget_password_step_2", function (req, res, next) {
     if (!req.body.email && !req.body.otp && !req.body.password) {
         res.status(403).send(`
         please send the email , otp ans password in json body
