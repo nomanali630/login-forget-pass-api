@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-// var client = new postmark.Client("e3e929ca-85fa-41e1-b7f5-e19af56667f5");
+var client = new postmark.Client("e3e929ca-85fa-41e1-b7f5-e19af56667f5");
 
 
 var { userModel, otpModel } = require("../dbrepo/models");
@@ -49,7 +49,7 @@ api.post("/signup", (req, res, next) => {
                     })
                     newUser.save((err, data) => {
                         if (!err) {
-                            res.send({
+                            res.status(200).send({
                                 message: "user created"
                             })
                         } else {
