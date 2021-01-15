@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("e3e929ca-85fa-41e1-b7f5-e19af56667f5");
+var client = new postmark.Client("6b04597f-44f8-47bc-8f77-ba7597d57781");
 
 
 var { userModel, otpModel } = require("../dbrepo/models");
@@ -49,7 +49,8 @@ api.post("/signup", (req, res, next) => {
                     })
                     newUser.save((err, data) => {
                         if (!err) {
-                            res.status(200).send({
+                            res.send({
+                                status: 200,
                                 message: "user created"
                             })
                         } else {
@@ -66,7 +67,7 @@ api.post("/signup", (req, res, next) => {
                     message: "db error"
                 })
             } else {
-                res.status(409).send({
+                res.send({
                     message: "user already exist"
                 })
             }
@@ -111,6 +112,7 @@ api.post("/login", (req, res, next) => {
                         });
 
                         res.send({
+                            status: 200,
                             message: "login success",
                             user: {
                                 name: user.name,
@@ -122,7 +124,7 @@ api.post("/login", (req, res, next) => {
 
                     } else {
                         console.log("not matched");
-                        res.status(401).send({
+                        res.send({
                             message: "incorrect password"
                         })
                     }
@@ -175,7 +177,10 @@ api.post("/forget_password", function (req, res, next) {
                         "Textbody": `Here is your Reset password code : ${otp}`
                     }).then((status) => {
                         console.log("status: ", status);
-                        res.send("email sent with code")
+                        res.send({
+                            status: 200,
+                            message: "email sent with code"
+                        })
                     })
                 }).catch((err) => {
                     console.log("error in creating otp:", err)
@@ -237,17 +242,20 @@ api.post("/forget_password_step_2", function (req, res, next) {
                                     message: "incorrect opt"
                                 });
                             }
-                        }else{
+                        } else {
                             res.status(401).send({
-                                message:"user not found"
+                                message: "incorrect opt"
                             });
                         }
                     }
 
                 )
+            } else {
+                res.status(401).send({
+                    message: "user not found"
+                });
             }
-        }
-    )
+        });
 });
 module.exports = api;
 

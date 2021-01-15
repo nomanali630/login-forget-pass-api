@@ -11,7 +11,8 @@ function signup() {
             phone: document.getElementById('phone').value,
             gender: document.getElementById('gender').value,
             
-        }
+        },
+        withCredentials:true
     })
     .then((response) => {
         if (response.data.status === 200) {
@@ -38,10 +39,13 @@ function login() {
 
         }
     }).then((response) => {
-        console.log(response);
-        alert(response.data.message)
-        // location.href = "./profile.html"
-    }, (error) => {
+        if (response.data.status === 200) {
+            alert(response.data.message)
+            location.href = "./profile.html"
+        } else {
+            alert(response.data.message);
+        }
+    }).catch((error) => {
         console.log(error);
     });
     return false;
@@ -75,42 +79,47 @@ function logout() {
     return false
 }
 function forget_password() {
+
+    var email = document.getElementById('email12').value
+    localStorage.setItem("email",email)
+
     axios({
         method: 'post',
-        url: 'http://localhost:3000/login',
+        url: 'http://localhost:3000/forget_password',
         // url: 'https://forgetpasswordserver.herokuapp.com/login',
         withCredentials: true,
         data: {
-
-            email: document.getElementById('email12').value,
-           
-
+         email:email
         }
     }).then((response) => {
-        console.log(response);
-        alert(response.data.message)
-        // location.href = "./profile.html"
-    }, (error) => {
+        if (response.data.status === 200) {
+            alert(response.data.message)
+            location.href = "./forget_pass_code.html"
+        } else {
+            alert(response.data.message);
+        }
+    }).catch((error) => {
         console.log(error);
     });
     return false;
 }
-function forget_password() {
+function forget_password_step_2() {
+    var email22 = localStorage.getItem("email")
     axios({
         method: 'post',
-        url: 'http://localhost:3000/login',
+        url: 'http://localhost:3000/forget_password_step_2',
         // url: 'https://forgetpasswordserver.herokuapp.com/login',
         withCredentials: true,
         data: {
-
-            email: document.getElementById('code').value,
-            email: document.getElementById('newpass').value,
+            email:email22,
+            code: document.getElementById('code').value,
+            newPass: document.getElementById('newpass').value,
            }
     }).then((response) => {
-        console.log(response);
-        alert(response.data.message)
-        // location.href = "./profile.html"
-    }, (error) => {
+       console.log(response);
+       alert(response.data)
+       location.href = "./login.html"
+    }).catch((error) => {
         console.log(error);
     });
     return false;
